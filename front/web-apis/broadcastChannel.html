@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BroadcastChannel Demo</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #log { border: 1px solid #ccc; padding: 10px; height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+<h1>BroadcastChannel Example</h1>
+<input id="messageInput" placeholder="Введите сообщение..." />
+<button id="sendBtn">Отправить</button>
+
+<h3>Лог:</h3>
+<div id="log"></div>
+
+<script>
+    // Создаём канал (имя должно совпадать во всех вкладках)
+    const channel = new BroadcastChannel("demo_channel");
+    const log = document.getElementById("log");
+    const input = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function addLog(text, isOwn = false) {
+        const p = document.createElement("p");
+        p.textContent = (isOwn ? "➡️ " : "⬅️ ") + text;
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
+    }
+
+    // Слушаем входящие сообщения
+    channel.onmessage = (event) => {
+        addLog("Получено: " + event.data);
+    };
+
+    // Отправка сообщения в канал
+    sendBtn.onclick = () => {
+        const msg = input.value.trim();
+        if (msg) {
+            channel.postMessage(msg);
+            addLog("Отправлено: " + msg, true);
+            input.value = "";
+        }
+    };
+</script>
+</body>
+</html>

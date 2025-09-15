@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<title>pagehide vs beforeunload vs visibility</title>
+
+<body>
+<h1>Open console</h1>
+<p>Попробуй: 1) перейти на другой URL, 2) перезагрузить страницу, 3) просто переключить вкладку.</p>
+
+<script>
+    // Срабатывает при уходе со страницы (в т.ч. при попадании в bfcache)
+    window.addEventListener('pagehide', (e) => {
+        console.log('[pagehide]', 'persisted:', e.persisted);
+    });
+
+    // Срабатывает перед выгрузкой документа (диалог только при returnValue)
+    window.addEventListener('beforeunload', (e) => {
+        console.log('[beforeunload]');
+        // ВНИМАНИЕ: чтобы появился системный диалог подтверждения:
+         e.preventDefault();
+         e.returnValue = 'heloeleo';
+    });
+
+    // Не надёжно/устарело — приводим для сравнения
+    window.addEventListener('unload', () => {
+        console.log('[unload]');
+    });
+
+    // Срабатывает при сворачивании/переключении вкладок
+    document.addEventListener('visibilitychange', () => {
+        console.log('[visibilitychange]', document.visibilityState);
+    });
+
+    // Для SharedWorker/очистки соединений рекомендуют pagehide
+    // + дублировать на visibilitychange (если нужно при уходе в фон)
+</script>
+</body>
+</html>
