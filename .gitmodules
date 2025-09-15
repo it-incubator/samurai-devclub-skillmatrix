@@ -1,0 +1,4 @@
+[submodule "books/mnogopotochny-js/code-samples"]
+	path = books/mnogopotochny-js/code-samples
+	url = git@github.com:MultithreadedJSBook/code-samples.git
+	branch = main
