@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Loop concept</title>
+</head>
+<body>
+  <script>
+    console.log('1');
+
+    setTimeout(() => {
+      console.log('2');
+    }, 0);
+
+    Promise.resolve().then(() => {
+      console.log('3');
+    });
+
+    console.log('4');
+
+    // 1  
+    // 4  
+    // 3  ← microtask (Promise)  
+    // 2  ← macrotask (setTimeout)
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Macro and Micro Tasks</title>
+</head>
+<body>
+  <button onclick="runDemo()">Запустить демо</button>
+
+  <div id="output"></div>
+
+  <script>
+    function runDemo() {
+      const output = document.getElementById('output');
+      output.innerHTML = ''; // Очистить вывод перед запуском
+
+      // Выводим начальное сообщение
+      const startMessage = document.createElement('div');
+      startMessage.classList.add('log-item');
+      startMessage.textContent = 'Start';
+      output.appendChild(startMessage);
+
+      // Макрозадача с setTimeout
+      setTimeout(() => {
+        const timeoutMessage = document.createElement('div');
+        timeoutMessage.classList.add('log-item');
+        timeoutMessage.textContent = 'setTimeout (macro task)';
+        output.appendChild(timeoutMessage);
+      }, 0);
+
+      // Микрозадачи с промисами
+      Promise.resolve().then(() => {
+        const promiseMessage = document.createElement('div');
+        promiseMessage.classList.add('log-item');
+        promiseMessage.textContent = 'Promise 1 (micro task)';
+        output.appendChild(promiseMessage);
+      }).then(() => {
+        const promiseMessage2 = document.createElement('div');
+        promiseMessage2.classList.add('log-item');
+        promiseMessage2.textContent = 'Promise 2 (micro task)';
+        output.appendChild(promiseMessage2);
+      });
+
+      // Еще одно сообщение после всех асинхронных задач
+      const endMessage = document.createElement('div');
+      endMessage.classList.add('log-item');
+      endMessage.textContent = 'End';
+      output.appendChild(endMessage);
+    }
+  </script>
+</body>
+</html>
