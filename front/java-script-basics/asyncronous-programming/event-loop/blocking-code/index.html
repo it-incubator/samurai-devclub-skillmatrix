@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blocking Code</title>
+</head>
+<body>
+  <p>Current time: 
+    <span id="time">0</span>
+  </p>
+  <button id="button">Block the strem for 3 seconds</button>
+
+  <script>
+    const time = document.getElementById('time');
+    const button = document.getElementById('button');
+
+    // Обновление времени каждую 100 мс
+    setInterval(() => {
+      time.textContent = new Date().toLocaleTimeString();
+    }, 100);
+
+    button.addEventListener('click', () => {
+      console.log('Start');
+
+      setTimeout(() => {
+        console.log('Timeout callback');
+      }, 0);
+
+      // Блокирующий цикл на 3 секунды
+      const start = Date.now();
+      while (Date.now() - start < 3000) {} // блокирует 3 сек
+
+      console.log('End');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero Delay and Event Loop</title>
+</head>
+<body>
+  <button onclick="runDemo()">Start demo</button>
+  <div id="output"></div>
+
+  <script>
+    function runDemo() {
+      const output = document.getElementById('output');
+      
+      // Создание нового элемента для вывода в консоль
+      const startMessage = document.createElement('div');
+      startMessage.classList.add('log-item');
+      startMessage.textContent = 'Start';
+      output.appendChild(startMessage);
+
+      setTimeout(() => {
+        const timeoutMessage = document.createElement('div');
+        timeoutMessage.classList.add('log-item');
+        timeoutMessage.textContent = 'setTimeout with 0 ms';
+        output.appendChild(timeoutMessage);
+      }, 0);
+
+      Promise.resolve().then(() => {
+        const promiseMessage = document.createElement('div');
+        promiseMessage.classList.add('log-item');
+        promiseMessage.textContent = 'Promise';
+        output.appendChild(promiseMessage);
+      });
+
+      const endMessage = document.createElement('div');
+      endMessage.classList.add('log-item');
+      endMessage.textContent = 'End';
+      output.appendChild(endMessage);
+    }
+
+    // Start
+    // End
+    // Promise
+    // setTimeout with 0 ms
+  </script>
+</body>
+</html>
